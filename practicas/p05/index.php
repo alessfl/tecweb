@@ -134,8 +134,23 @@
     echo "<h4>Transformar booleanos con var_export()</h4>";
     echo "Valor de c: " . var_export($c, true) . "<br>";
     echo "Valor de e: " . var_export($e, true) . "<br>";
+    ?>
 
-    unset($a, $b, $c, $d, $e, $f);
+     <h2>Ejercicio 7 — variable $_SERVER</h2>
+    <?php
+    echo "<pre>";
+    echo "SERVER_SOFTWARE (servidor web): ";
+    echo isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : "No disponible (CLI o entorno restringido)";
+    echo "\n";
+
+    echo "Versión de PHP (phpversion()): " . phpversion() . "\n";
+
+    echo "Sistema operativo (php_uname): " . php_uname() . "\n";
+
+    echo "Idioma del navegador (HTTP_ACCEPT_LANGUAGE): ";
+    echo isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "No disponible (depende del cliente/entorno)";
+    echo "\n";
+    echo "</pre>";
     ?>
 </body>
 </html>

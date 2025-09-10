@@ -5,7 +5,7 @@
     <title>Práctica 5</title>
 </head>
 <body>
-    <h2>Ejercicio 1 - Variables</h2>
+    <h2>Ejercicio 1 - variables</h2>
     <p>Determina cuál de las siguientes variables son válidas y explica por qué:</p>
     <p>$_myvar,  $_7var,  myvar,  $myvar,  $var7,  $_element1, $house*5</p>
     <?php
@@ -31,7 +31,7 @@
         echo '</ul>';
     ?>
 
-    <h2>Ejercicio 2 — Referencias</h2>
+    <h2>Ejercicio 2 — referencias</h2>
     <p>Asignar y luego reasignar referencias; mostramos el contenido antes y después.</p>
 
     <?php
@@ -56,7 +56,50 @@
     Después, al hacer <code>\$b =& \$a</code>, la variable <code>\$b</code> dejó de tener su valor anterior (<em>\"MySQL\"</em>) y pasó a apuntar al mismo lugar que <code>\$a</code>. 
     Por eso, al final, las tres variables (<code>\$a</code>, <code>\$b</code> y <code>\$c</code>) muestran exactamente el mismo contenido: <em>\"PHP server\"</em>.
     </p>";
+    ?>
 
+    <h2>Ejercicio 3 — evolución y tipo de variables</h2>
+    <?php
+    $a = "PHP5";
+    echo "<strong>1) <code>\$a = \"PHP5\"</code>:</strong>\n";
+    echo "<p> -> a: $a</p>";
+
+    $z = array();
+    $z[] = &$a; // $z[0] referencia a $a
+    echo "<strong>2) <code>\$z[] =& \$a</code></strong>\n<pre>";
+    echo "<p> -> z: $z</p>";
+    var_dump($z);
+    echo "</pre>";
+
+    $b = "5a version de PHP";
+    echo "<strong>3) <code>\$b = \"5a version de PHP\"</code>:</strong>\n<pre>"; 
+    echo "<p> -> b: $b</p>";
+    var_dump($b); 
+    echo "</pre>";
+
+    $c = $b * 10;
+    echo "<strong>4) <code>\$c = \$b * 10</code>:</strong>\n<pre>"; 
+    echo "<p> -> c: $c</p>";
+    var_dump($c); 
+    echo "</pre>";
+
+    $a .= $b; // concatenación, $a sigue siendo cadena
+    echo "<strong>5) <code>\$a .= \$b</code> (concatenación):</strong>\n<pre>"; 
+    echo "<p> -> a: $a</p>";
+    var_dump($a); 
+    echo "</pre>";
+
+    $b *= $c; // $b se convierte en numérico (5) y multiplica por $c (50) -> 250
+    echo "<strong>6) <code>\$b *= \$c</code>:</strong>\n<pre>"; 
+    echo "<p> -> b: $b</p>";
+    var_dump($b); 
+    echo "</pre>";
+
+    $z[0] = "MySQL"; 
+    echo "<strong>7) <code>\$z[0] = \"MySQL\"</code> (sobrescribe la referencia):</strong>\n<pre>";
+    echo "<p> -> z: $z</p>";
+    var_dump($z);
+    echo "</pre>";
     ?>
 
 </body>

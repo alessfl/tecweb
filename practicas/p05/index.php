@@ -5,7 +5,7 @@
     <title>Práctica 5</title>
 </head>
 <body>
-    <h2>Ejercicio 1</h2>
+    <h2>Ejercicio 1 - Variables</h2>
     <p>Determina cuál de las siguientes variables son válidas y explica por qué:</p>
     <p>$_myvar,  $_7var,  myvar,  $myvar,  $var7,  $_element1, $house*5</p>
     <?php
@@ -30,5 +30,34 @@
         echo '<li>$house*5 es inválida porque el símbolo * no está permitido.</li>';
         echo '</ul>';
     ?>
+
+    <h2>Ejercicio 2 — Referencias</h2>
+    <p>Asignar y luego reasignar referencias; mostramos el contenido antes y después.</p>
+
+    <?php
+    echo "<h3>a) Asignaciones iniciales y salida:</h3>\n";
+    $a = "ManejadorSQL";
+    $b = 'MySQL';
+    $c = &$a; // $c referencia a $a
+
+    echo "<p> a: $a</p>";
+    echo "<p> b: $b</p>";
+    echo "<p> c: $c</p>";
+
+    echo "<h3>b) Nuevas asignaciones:</h3>\n";
+    $a = "PHP server"; // modifica la variable referenciada
+    $b = &$a;          // ahora $b referencia a $a (pierde el dato 'MySQL')
+    echo "<p> a: $a</p>";
+    echo "<p> b: $b</p>";
+    echo "<p> c: $c</p>";
+    
+    echo "<p><strong>Descripción de lo ocurrido:</strong> 
+    En el segundo bloque, al cambiar <code>\$a</code> a <em>\"PHP server\"</em>, ese nuevo valor también se reflejó en <code>\$c</code> porque estaba enlazado a <code>\$a</code>. 
+    Después, al hacer <code>\$b =& \$a</code>, la variable <code>\$b</code> dejó de tener su valor anterior (<em>\"MySQL\"</em>) y pasó a apuntar al mismo lugar que <code>\$a</code>. 
+    Por eso, al final, las tres variables (<code>\$a</code>, <code>\$b</code> y <code>\$c</code>) muestran exactamente el mismo contenido: <em>\"PHP server\"</em>.
+    </p>";
+
+    ?>
+
 </body>
 </html>

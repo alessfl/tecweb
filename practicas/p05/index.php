@@ -67,40 +67,45 @@
     $z = array();
     $z[] = &$a; // $z[0] referencia a $a
     echo "<strong>2) <code>\$z[] =& \$a</code></strong>\n<pre>";
-    echo "<p> -> z: $z</p>";
     var_dump($z);
     echo "</pre>";
 
     $b = "5a version de PHP";
-    echo "<strong>3) <code>\$b = \"5a version de PHP\"</code>:</strong>\n<pre>"; 
+    echo "<strong>3) <code>\$b = \"5a version de PHP\"</code>:</strong>"; 
     echo "<p> -> b: $b</p>";
-    var_dump($b); 
-    echo "</pre>";
 
     $c = $b * 10;
     echo "<strong>4) <code>\$c = \$b * 10</code>:</strong>\n<pre>"; 
-    echo "<p> -> c: $c</p>";
     var_dump($c); 
     echo "</pre>";
 
     $a .= $b; // concatenación, $a sigue siendo cadena
-    echo "<strong>5) <code>\$a .= \$b</code> (concatenación):</strong>\n<pre>"; 
+    echo "<strong>5) <code>\$a .= \$b</code> (concatenación):</strong>"; 
     echo "<p> -> a: $a</p>";
-    var_dump($a); 
-    echo "</pre>";
 
     $b *= $c; // $b se convierte en numérico (5) y multiplica por $c (50) -> 250
-    echo "<strong>6) <code>\$b *= \$c</code>:</strong>\n<pre>"; 
+    echo "<strong>6) <code>\$b *= \$c</code>:</strong>"; 
     echo "<p> -> b: $b</p>";
-    var_dump($b); 
-    echo "</pre>";
 
     $z[0] = "MySQL"; 
     echo "<strong>7) <code>\$z[0] = \"MySQL\"</code> (sobrescribe la referencia):</strong>\n<pre>";
-    echo "<p> -> z: $z</p>";
     var_dump($z);
     echo "</pre>";
     ?>
+
+    <h2>Ejercicio 4 - Leer y mostrar los valores de las variables del ejercicio 3</h2>
+    <?php
+    echo "<h3>4) Usando <code>global</code> dentro de una función:</h3>\n";
+
+    function leerConGlobal() {
+        global $a, $b, $c, $z;
+        echo "<pre>";
+        var_dump($a, $b, $c, $z);
+        echo "</pre>";
+    }
+    leerConGlobal();
+    ?>
+
 
 </body>
 </html>

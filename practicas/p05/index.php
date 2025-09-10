@@ -95,7 +95,7 @@
 
     <h2>Ejercicio 4 - Leer y mostrar los valores de las variables del ejercicio 3</h2>
     <?php
-    echo "<h3>4) Usando <code>global</code> dentro de una función:</h3>\n";
+    echo "<h4>4) Usando <code>global</code> dentro de una función:</h4>\n";
 
     function leerConGlobal() {
         global $a, $b, $c, $z;
@@ -116,6 +116,26 @@
     echo "<p> -> a: ", var_dump($a), "</p>";
     echo "<p> -> b: ", var_dump($b), "</p>";
     echo "<p> -> c: ", var_dump($c), "</p>";
+    ?>
+
+    <h2>Ejercicio 6 — valores booleanos</h2>
+    <?php
+    $a = "0";      
+    $b = "TRUE";   
+    $c = FALSE;
+    $d = ($a OR $b);    
+    $e = ($a AND $c);   
+    $f = ($a XOR $b);   
+
+    echo "<pre>";
+    var_dump($a, $b, $c, $d, $e, $f);
+    echo "</pre>";
+
+    echo "<h4>Transformar booleanos con var_export()</h4>";
+    echo "Valor de c: " . var_export($c, true) . "<br>";
+    echo "Valor de e: " . var_export($e, true) . "<br>";
+
+    unset($a, $b, $c, $d, $e, $f);
     ?>
 </body>
 </html>

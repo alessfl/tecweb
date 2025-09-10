@@ -105,7 +105,17 @@
     }
     leerConGlobal();
     ?>
+        
+    <h2>Ejercicio 5 — valor a las variables</h2>
+    <?php
+    $a = "7 personas";
+    $b = (integer) $a; // convierte "7 personas" -> 7
+    $a = "9E3";
+    $c = (double) $a;  // "9E3" -> 9000.0 (notación científica)
 
-
+    echo "<p> -> a: ", var_dump($a), "</p>";
+    echo "<p> -> b: ", var_dump($b), "</p>";
+    echo "<p> -> c: ", var_dump($c), "</p>";
+    ?>
 </body>
 </html>

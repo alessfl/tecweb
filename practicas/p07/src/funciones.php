@@ -79,7 +79,6 @@
     • El número dado se debe obtener vía GET.
     */
 
-    //if (isset($_GET['num_ej3'])) {
         // Ejercicio 3 con while
         function primerNumeroEnteroDeWhile($num) {
             $aleatorio = rand(1, 1000);
@@ -103,6 +102,46 @@
 
             return "Número encontrado con do-while: $aleatorio (en $iteraciones iteraciones)";
         }
+    ?>
+
+    <?php
+    /*
+    Crear un arreglo cuyos índices van de 97 a 122 y cuyos valores son las letras de la ‘a’
+    a la ‘z’. Usa la función chr(n) que devuelve el caracter cuyo código ASCII es n para poner
+    el valor en cada índice. Es decir:
+    [97] => a
+    [98] => b
+    [99] => c
+    …
+    [122] => z
+    ✓ Crea el arreglo con un ciclo for
+    ✓ Lee el arreglo y crea una tabla en XHTML con echo y un ciclo foreach
+    foreach ($arreglo as $key => $value) {
+    # code...
+    } */
+
+    // ejercicio4
+    function arregloAscii() {
+        $arreglo = [];
+
+        // Llenar arreglo con índices 97–122
+        for ($i = 97; $i <= 122; $i++) {
+            $arreglo[$i] = chr($i);
+        }
+
+        // Crear tabla XHTML
+        $tabla = "<h3>ejercicio 4</h3>";
+        $tabla .= "<table border='1' cellpadding='5' cellspacing='0'>";
+        $tabla .= "<tr><th> - indice </th><th> - letra </th></tr>";
+
+        foreach ($arreglo as $key => $value) {
+            $tabla .= "<tr><td> $key </td><td> $value </td></tr>";
+        }
+        $tabla .= "</table>";
+
+        return $tabla;
+    }
+
     ?>
 </body>
 </html>

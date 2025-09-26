@@ -12,7 +12,7 @@
     <?php
         if (isset($_GET['ej1'])) {
             echo "<h3>R= " . esMultiploDe5y7($_GET['ej1']) . "</h3>";
-        }
+        } 
     ?>
 
     <h2>Ejercicio 2 -> variable (ej2)</h2>
@@ -32,6 +32,13 @@
         }
     ?>
 
+    <h2>Ejercicio 4 -> variable (ej4)</h2>
+    <p>Crear un arreglo con índices de 97 a 122 y valores de la a a la z.</p>
+    <?php
+    if (isset($_GET['ej4'])) {
+        echo arregloAscii();
+    }
+    ?>
 
     <h2>Ejemplo de POST</h2>
     <form action="http://localhost/tecweb/practicas/p07/index.php" method="post">

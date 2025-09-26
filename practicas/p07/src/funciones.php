@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Práctica 4</title>
+    <title>Práctica 7</title>
 </head>
 <body> 
     <?php
@@ -70,6 +70,39 @@
         }
         echo "<p>" . ($iteraciones * 3) . " números obtenidos en $iteraciones iteraciones</p>";
     }*/
+    ?>
+
+    <?php
+    /* Utiliza un ciclo while para encontrar el primer número entero obtenido aleatoriamente,
+    pero que además sea múltiplo de un número dado.
+    • Crear una variante de este script utilizando el ciclo do-while.
+    • El número dado se debe obtener vía GET.
+    */
+
+    //if (isset($_GET['num_ej3'])) {
+        // Ejercicio 3 con while
+        function primerNumeroEnteroDeWhile($num) {
+            $aleatorio = rand(1, 1000);
+            $iteraciones = 1;
+
+            while ($aleatorio % $num != 0) {
+                $aleatorio = rand(1, 1000);
+                $iteraciones++;
+            }
+
+            return "Número encontrado con while: $aleatorio (en $iteraciones iteraciones)";
+        }
+
+        // Ejercicio 3 con do-while
+        function primerNumeroEnteroDeDoWhile($num) {
+            $iteraciones = 0;
+            do {
+                $aleatorio = rand(1, 1000);
+                $iteraciones++;
+            } while ($aleatorio % $num != 0);
+
+            return "Número encontrado con do-while: $aleatorio (en $iteraciones iteraciones)";
+        }
     ?>
 </body>
 </html>

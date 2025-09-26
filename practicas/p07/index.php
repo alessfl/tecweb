@@ -40,12 +40,25 @@
     }
     ?>
 
-    <h2>Ejercicio 5 -> variable (ej5)</h2>
+    <h2>Ejercicio 5</h2>
     <p>Formulario que evalúa si una persona cumple con la edad y sexo solicitados.</p>
-    <?php
-        echo mostrarFormulario();
+    <form action="http://localhost/tecweb/practicas/p07/ejercicio5.php" method="post">       
+        Edad: <input type="number" name="edad" required><br>
+        Sexo: 
+        <select name="sexo">
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+        </select>
+        <br>
+        <input type="submit">
+    </form>
+
+    <h2>Ejercicio 6</h2>
+    <p>Formulario de registro de el parque vehicular de una ciudad. </p>
+    <?php 
+        parqueVehicular();
     ?>
-    
+
     <h2>Ejemplo de POST</h2>
     <form action="http://localhost/tecweb/practicas/p07/index.php" method="post">
         Name: <input type="text" name="name"><br>

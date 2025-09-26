@@ -40,6 +40,12 @@
     }
     ?>
 
+    <h2>Ejercicio 5 -> variable (ej5)</h2>
+    <p>Formulario que evalúa si una persona cumple con la edad y sexo solicitados.</p>
+    <?php
+        echo mostrarFormulario();
+    ?>
+    
     <h2>Ejemplo de POST</h2>
     <form action="http://localhost/tecweb/practicas/p07/index.php" method="post">
         Name: <input type="text" name="name"><br>

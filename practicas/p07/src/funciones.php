@@ -141,7 +141,48 @@
 
         return $tabla;
     }
-
     ?>
+
+    <?php
+    /* IMPORTANTE: Los siguientes ejercicios deben implementarse en formularios simples de HTML5
+    (solicitud) y como respuesta devolver un XHTML generado por PHP.
+
+    5. Usar las variables $edad y $sexo en una instrucción if para identificar una persona de
+    sexo “femenino”, cuya edad oscile entre los 18 y 35 años y mostrar un mensaje de
+    bienvenida apropiado. Por ejemplo:
+    Bienvenida, usted está en el rango de edad permitido.
+    En caso contrario, deberá devolverse otro mensaje indicando el error.
+    ✓ Los valores para $edad y $sexo se deben obtener por medio de un formulario en
+    HTML.
+    ✓ Utilizar el la Variable Superglobal $_POST (revisar documentación). */
+    function mostrarFormulario() {
+        echo '<form action="http://localhost/tecweb/practicas/p07/index.php" method="post">
+            Edad: <input type="number" name="edad" required><br>
+            Sexo: 
+            <select name="sexo" required>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+            </select><br>
+            <input type="submit" value="Enviar">
+        </form><br>';
+    
+    if(isset($_POST["edad"]) && isset($_POST["sexo"]))
+    {
+        $edad = $_POST["edad"];
+        $sexo = $_POST["sexo"];
+
+        if($sexo == "femenino" && $edad >= 18 && $edad <= 35) {
+            echo "<h3>Bienvenida, usted está en el rango de edad permitido.</h3>";
+        } else {
+            echo "<h3>Lo siento, no cumple con los requisitos de edad o sexo.</h3>";
+        }
+    }  
+} 
+    ?>
+
+    <?php
+
+?>
+
 </body>
 </html>

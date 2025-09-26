@@ -7,15 +7,15 @@
     <title>Práctica 7</title>
 </head>
 <body>
-    <h2>Ejercicio 1</h2>
+    <h2>Ejercicio 1 -> variable (ej1)</h2>
     <p>Escribir programa para comprobar si un número es un múltiplo de 5 y 7</p>
     <?php
-        if (isset($_GET['numero'])) {
-            echo "<h3>R= " . esMultiploDe5y7($_GET['numero']) . "</h3>";
+        if (isset($_GET['ej1'])) {
+            echo "<h3>R= " . esMultiploDe5y7($_GET['ej1']) . "</h3>";
         }
     ?>
 
-    <h2>Ejercicio 2 </h2>
+    <h2>Ejercicio 2 -> variable (ej2)</h2>
     <p>Crea un programa para la generación repetitiva de 3 números aleatorios hasta obtener una secuencia</p>
     <?php
         if (isset($_GET['ej2'])) {
@@ -23,7 +23,7 @@
         }
     ?>
 
-    <h2>Ejercicio 3</h2>
+    <h2>Ejercicio 3 -> variable (ej3)</h2>
     <p>Utiliza un ciclo while y do-while para encontrar el primer número aleatorio múltiplo de un número dado (por GET).</p>
     <?php
         if (isset($_GET['ej3'])) {

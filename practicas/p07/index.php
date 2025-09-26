@@ -53,11 +53,7 @@
         <input type="submit">
     </form>
 
-    <h2>Ejercicio 6</h2>
-    <p>Formulario de registro de el parque vehicular de una ciudad. </p>
-    <?php 
-        parqueVehicular();
-    ?>
+    
 
     <h2>Ejemplo de POST</h2>
     <form action="http://localhost/tecweb/practicas/p07/index.php" method="post">

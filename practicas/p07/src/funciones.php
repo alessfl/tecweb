@@ -15,16 +15,6 @@
             return "El número $num NO es múltiplo de 5 y 7.";
         }
     }
-    /*
-    if(isset($_GET['numero'])){
-            $num = $_GET['numero'];
-            if ($num%5==0 && $num%7==0){
-                echo '<h3>R= El número '.$num.' SÍ es múltiplo de 5 y 7.</h3>';
-            }
-            else {
-                echo '<h3>R= El número '.$num.' NO es múltiplo de 5 y 7.</h3>';
-            }
-        }*/
     ?>
 
     <?php
@@ -52,34 +42,10 @@
 
         return $resultado;
     }
-    /*if (isset($_GET['ej2'])) {
-        $matriz = [];
-        $iteraciones = 0;
-        do {
-            $fila = [];
-            for ($i = 0; $i < 3; $i++) {
-                $fila[] = rand(1, 999);
-            }
-            $matriz[] = $fila;
-            $iteraciones++;
-        } while (!($fila[0] % 2 != 0 && $fila[1] % 2 == 0 && $fila[2] % 2 != 0));
-
-        echo "<h3>Secuencia generada:</h3>";
-        foreach ($matriz as $fila) {
-            echo implode(", ", $fila) . "<br>";
-        }
-        echo "<p>" . ($iteraciones * 3) . " números obtenidos en $iteraciones iteraciones</p>";
-    }*/
     ?>
 
     <?php
-    /* Utiliza un ciclo while para encontrar el primer número entero obtenido aleatoriamente,
-    pero que además sea múltiplo de un número dado.
-    • Crear una variante de este script utilizando el ciclo do-while.
-    • El número dado se debe obtener vía GET.
-    */
-
-        // Ejercicio 3 con while
+        // ejercicio 3 con while
         function primerNumeroEnteroDeWhile($num) {
             $aleatorio = rand(1, 1000);
             $iteraciones = 1;
@@ -105,21 +71,6 @@
     ?>
 
     <?php
-    /*
-    Crear un arreglo cuyos índices van de 97 a 122 y cuyos valores son las letras de la ‘a’
-    a la ‘z’. Usa la función chr(n) que devuelve el caracter cuyo código ASCII es n para poner
-    el valor en cada índice. Es decir:
-    [97] => a
-    [98] => b
-    [99] => c
-    …
-    [122] => z
-    ✓ Crea el arreglo con un ciclo for
-    ✓ Lee el arreglo y crea una tabla en XHTML con echo y un ciclo foreach
-    foreach ($arreglo as $key => $value) {
-    # code...
-    } */
-
     // ejercicio4
     function arregloAscii() {
         $arreglo = [];
@@ -144,45 +95,120 @@
     ?>
 
     <?php
-    /* IMPORTANTE: Los siguientes ejercicios deben implementarse en formularios simples de HTML5
-    (solicitud) y como respuesta devolver un XHTML generado por PHP.
-
-    5. Usar las variables $edad y $sexo en una instrucción if para identificar una persona de
-    sexo “femenino”, cuya edad oscile entre los 18 y 35 años y mostrar un mensaje de
-    bienvenida apropiado. Por ejemplo:
-    Bienvenida, usted está en el rango de edad permitido.
-    En caso contrario, deberá devolverse otro mensaje indicando el error.
-    ✓ Los valores para $edad y $sexo se deben obtener por medio de un formulario en
-    HTML.
-    ✓ Utilizar el la Variable Superglobal $_POST (revisar documentación). */
-    function mostrarFormulario() {
-        echo '<form action="http://localhost/tecweb/practicas/p07/index.php" method="post">
-            Edad: <input type="number" name="edad" required><br>
-            Sexo: 
-            <select name="sexo" required>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-            </select><br>
-            <input type="submit" value="Enviar">
-        </form><br>';
-    
-    if(isset($_POST["edad"]) && isset($_POST["sexo"]))
-    {
-        $edad = $_POST["edad"];
-        $sexo = $_POST["sexo"];
-
-        if($sexo == "femenino" && $edad >= 18 && $edad <= 35) {
-            echo "<h3>Bienvenida, usted está en el rango de edad permitido.</h3>";
-        } else {
-            echo "<h3>Lo siento, no cumple con los requisitos de edad o sexo.</h3>";
-        }
-    }  
-} 
+    //ejercicio5
+    function validarSexoyEdad($sexo, $edad){
+    if ($sexo === "femenino" && $edad >= 18 && $edad <= 35) {
+        echo "<p><strong>Bienvenida</strong>, usted está en el rango de edad permitido.</p>";
+    } else {
+        echo "<p><strong>Lo siento, no cumple con los requisitos de edad o sexo...</p>";
+    }
+    }
     ?>
 
     <?php
+    // ejercicio6
+    function parqueVehicular() {
+        $autos = array(
+            "UBN6338" => array(
+                "Auto" => array("marca" => "HONDA", "modelo" => 2020, "tipo" => "camioneta"),
+                "Propietario" => array("nombre" => "Alfonzo Esparza", "ciudad" => "Puebla, Pue.", "direccion" => "C.U., Jardines de San Manuel")
+            ),
+            "UBN6339" => array(
+                "Auto" => array("marca" => "MAZDA", "modelo" => 2019, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "Ma. del Consuelo Molina", "ciudad" => "Puebla, Pue.", "direccion" => "97 oriente")
+            ),
+            "XYZ1234" => array(
+                "Auto" => array("marca" => "TOYOTA", "modelo" => 2021, "tipo" => "hachback"),
+                "Propietario" => array("nombre" => "Luis Hernández", "ciudad" => "CDMX", "direccion" => "Av. Reforma 200")
+            ),
+            "QWE4567" => array(
+                "Auto" => array("marca" => "NISSAN", "modelo" => 2018, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "María Pérez", "ciudad" => "Guadalajara", "direccion" => "Col. Americana")
+            ),
+            "ASD7890" => array(
+                "Auto" => array("marca" => "FORD", "modelo" => 2022, "tipo" => "camioneta"),
+                "Propietario" => array("nombre" => "Jorge Ramírez", "ciudad" => "Monterrey", "direccion" => "Centro")
+            ),
+            "ZXC1122" => array(
+                "Auto" => array("marca" => "KIA", "modelo" => 2020, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "Ana Torres", "ciudad" => "Querétaro", "direccion" => "Av. 5 de Febrero")
+            ),
+            "BNM3344" => array(
+                "Auto" => array("marca" => "CHEVROLET", "modelo" => 2019, "tipo" => "hachback"),
+                "Propietario" => array("nombre" => "Ricardo López", "ciudad" => "Puebla, Pue.", "direccion" => "San Manuel")
+            ),
+            "HJK5566" => array(
+                "Auto" => array("marca" => "VOLKSWAGEN", "modelo" => 2021, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "Fernanda Díaz", "ciudad" => "CDMX", "direccion" => "Roma Norte")
+            ),
+            "LMN7788" => array(
+                "Auto" => array("marca" => "BMW", "modelo" => 2023, "tipo" => "camioneta"),
+                "Propietario" => array("nombre" => "Carlos Gómez", "ciudad" => "Guadalajara", "direccion" => "Chapalita")
+            ),
+            "POI9900" => array(
+                "Auto" => array("marca" => "MERCEDES", "modelo" => 2022, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "Daniela Suárez", "ciudad" => "CDMX", "direccion" => "Polanco")
+            ),
+            "GHJ2233" => array(
+                "Auto" => array("marca" => "TESLA", "modelo" => 2023, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "Eduardo Salinas", "ciudad" => "Monterrey", "direccion" => "San Pedro")
+            ),
+            "VBN4455" => array(
+                "Auto" => array("marca" => "AUDI", "modelo" => 2021, "tipo" => "camioneta"),
+                "Propietario" => array("nombre" => "Gabriela Rivas", "ciudad" => "Querétaro", "direccion" => "Centro Histórico")
+            ),
+            "CDE6677" => array(
+                "Auto" => array("marca" => "SEAT", "modelo" => 2020, "tipo" => "hachback"),
+                "Propietario" => array("nombre" => "Hugo Medina", "ciudad" => "Puebla, Pue.", "direccion" => "El Carmen")
+            ),
+            "FGH8899" => array(
+                "Auto" => array("marca" => "HYUNDAI", "modelo" => 2019, "tipo" => "sedan"),
+                "Propietario" => array("nombre" => "Laura Castillo", "ciudad" => "CDMX", "direccion" => "Santa Fe")
+            ),
+            "JKL1010" => array(
+                "Auto" => array("marca" => "PEUGEOT", "modelo" => 2021, "tipo" => "camioneta"),
+                "Propietario" => array("nombre" => "Sofía Aguilar", "ciudad" => "Monterrey", "direccion" => "Col. Obispado")
+            )
+        );
 
-?>
+        // Mostrar estructura general
+        echo "<h3>Estructura General del Arreglo</h3>";
+        echo "<pre>";
+        print_r($autos);
+        echo "</pre>";
+
+        // Formulario
+        echo '<h3>Consulta de Autos</h3>
+        <form method="post" action="">
+            <label>Ingrese matrícula: </label>
+            <input type="text" name="matricula" placeholder="LLLNNNN (Letras y Números)" required>
+            <input type="submit" name="buscar" value="Buscar Auto">
+            <br><br>
+            <input type="submit" name="mostrarTodos" value="Mostrar Todos los Autos">
+        </form><br>';
+
+        // Buscar por matrícula
+        if (isset($_POST["buscar"])) {
+            $mat = strtoupper(trim($_POST["matricula"]));
+            if (array_key_exists($mat, $autos)) {
+                echo "<h4>Resultado para matrícula $mat:</h4>";
+                echo "<pre>";
+                print_r($autos[$mat]);
+                echo "</pre>";
+            } else {
+                echo "<p><b>No se encontró la matrícula $mat</b></p>";
+            }
+        }
+
+        // Mostrar todos
+        if (isset($_POST["mostrarTodos"])) {
+            echo "<h4>Todos los Autos Registrados</h4>";
+            echo "<pre>";
+            print_r($autos);
+            echo "</pre>";
+        }
+    }
+    ?>
 
 </body>
 </html>

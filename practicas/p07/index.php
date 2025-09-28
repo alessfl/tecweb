@@ -53,7 +53,18 @@
         <input type="submit">
     </form>
 
-    
+    <h2>Ejercicio 6</h2>
+    <p>Formulario de registro del parque vehicular de una ciudad.</p>
+
+    <form action="http://localhost/tecweb/practicas/p07/ejercicio6.php" method="post">
+        <label for="matricula">Consultar por matrícula:</label>
+        <input type="text" id="matricula" name="matricula" placeholder="Ej: ABC1234" />
+        <br /><br />
+
+        <input type="submit" name="consulta" value="Buscar por matrícula" />
+        <input type="submit" name="consulta" value="Mostrar todos" />
+    </form>
+
 
     <h2>Ejemplo de POST</h2>
     <form action="http://localhost/tecweb/practicas/p07/index.php" method="post">

@@ -19,7 +19,6 @@
         //$house*5;     // Invalida
         
         echo '<h4>Respuesta:</h4>';   
-    
         echo '<ul>';
         echo '<li>$_myvar es válida porque inicia con guión bajo.</li>';
         echo '<li>$_7var es válida porque inicia con guión bajo.</li>';
@@ -53,7 +52,7 @@
     
     echo "<p><strong>Descripción de lo ocurrido:</strong> 
     En el segundo bloque, al cambiar <code>\$a</code> a <em>\"PHP server\"</em>, ese nuevo valor también se reflejó en <code>\$c</code> porque estaba enlazado a <code>\$a</code>. 
-    Después, al hacer <code>\$b =& \$a</code>, la variable <code>\$b</code> dejó de tener su valor anterior (<em>\"MySQL\"</em>) y pasó a apuntar al mismo lugar que <code>\$a</code>. 
+    Después, al hacer <code>\$b =&amp; \$a</code>, la variable <code>\$b</code> dejó de tener su valor anterior (<em>\"MySQL\"</em>) y pasó a apuntar al mismo lugar que <code>\$a</code>. 
     Por eso, al final, las tres variables (<code>\$a</code>, <code>\$b</code> y <code>\$c</code>) muestran exactamente el mismo contenido: <em>\"PHP server\"</em>.
     </p>";
     ?>
@@ -61,35 +60,35 @@
     <h2>Ejercicio 3 — evolución y tipo de variables</h2>
     <?php
     $a = "PHP5";
-    echo "<strong>1) <code>\$a = \"PHP5\"</code>:</strong>\n";
+    echo "<p><strong>1) <code>\$a = \"PHP5\"</code>:</strong></p>\n";
     echo "<p> -> a: $a</p>";
 
     $z = array();
     $z[] = &$a; // $z[0] referencia a $a
-    echo "<strong>2) <code>\$z[] =& \$a</code></strong>\n<pre>";
-    var_dump($z);
+    echo "<p><strong>2) <code>\$z[] =&amp; \$a</code></strong></p><pre>";
+    echo htmlspecialchars(var_export($z, true));
     echo "</pre>";
 
     $b = "5a version de PHP";
-    echo "<strong>3) <code>\$b = \"5a version de PHP\"</code>:</strong>"; 
+    echo "<p><strong>3) <code>\$b = \"5a version de PHP\"</code>:</strong></p>"; 
     echo "<p> -> b: $b</p>";
 
     $c = $b * 10;
-    echo "<strong>4) <code>\$c = \$b * 10</code>:</strong>\n<pre>"; 
+    echo "<p><strong>4) <code>\$c = \$b * 10</code>:</strong></p><pre>"; 
     var_dump($c); 
     echo "</pre>";
 
     $a .= $b; // concatenación, $a sigue siendo cadena
-    echo "<strong>5) <code>\$a .= \$b</code> (concatenación):</strong>"; 
+    echo "<p><strong>5) <code>\$a .= \$b</code> (concatenación):</strong></p>"; 
     echo "<p> -> a: $a</p>";
 
     $b *= $c; // $b se convierte en numérico (5) y multiplica por $c (50) -> 250
-    echo "<strong>6) <code>\$b *= \$c</code>:</strong>"; 
+    echo "<p><strong>6) <code>\$b *= \$c</code>:</strong></p>"; 
     echo "<p> -> b: $b</p>";
 
     $z[0] = "MySQL"; 
-    echo "<strong>7) <code>\$z[0] = \"MySQL\"</code> (sobrescribe la referencia):</strong>\n<pre>";
-    var_dump($z);
+    echo "<p><strong>7) <code>\$z[0] = \"MySQL\"</code> (sobrescribe la referencia):</strong></p><pre>";
+    echo htmlspecialchars(var_export($z, true));
     echo "</pre>";
     ?>
 
@@ -100,7 +99,8 @@
     function leerConGlobal() {
         global $a, $b, $c, $z;
         echo "<pre>";
-        var_dump($a, $b, $c, $z);
+        var_dump($a, $b, $c);
+        echo htmlspecialchars(var_export($z, true));
         echo "</pre>";
     }
     leerConGlobal();
@@ -132,8 +132,8 @@
     echo "</pre>";
 
     echo "<h4>Transformar booleanos con var_export()</h4>";
-    echo "Valor de c: " . var_export($c, true) . "<br>";
-    echo "Valor de e: " . var_export($e, true) . "<br>";
+    echo "<p>Valor de c: " . var_export($c, true) . "<br />\n";
+    echo "Valor de e: " . var_export($e, true) . "<br /></p>\n";
     ?>
 
      <h2>Ejercicio 7 — variable $_SERVER</h2>
@@ -152,5 +152,11 @@
     echo "\n";
     echo "</pre>";
     ?>
+    <p>
+    <a href="https://validator.w3.org/check?uri=referer"><img
+      src="https://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML 1.1" height="31" width="88" /></a>
+    </p>
+    
+  
 </body>
 </html>

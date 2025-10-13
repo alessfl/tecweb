@@ -75,10 +75,11 @@ $link->close();
   <h1><?= $id ? "Editar Producto" : "Registrar Producto" ?></h1>
 
   <form id="form-productos"
-        action="set_producto_v2.php"
+        action="update_producto.php"
         method="post"
         onsubmit="return validarProducto()"
         novalidate>
+
 
     <?php if($id): ?>
       <input type="hidden" name="id" value="<?= $id ?>">

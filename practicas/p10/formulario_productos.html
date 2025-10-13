@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Registro de Productos</title>
+  <style>
+    label { display:block; margin-top:8px; }
+    input, textarea, select { width: 100%; max-width: 480px; }
+  </style>
+
+  <script>
+    function validarProducto() {
+      const form = document.getElementById("form-productos");
+
+      const nombre = form.nombre.value.trim();
+      const marca  = form.marca.value;
+      const modelo = form.modelo.value.trim();
+      const precio = parseFloat(form.precio.value);
+      const detalles = form.detalles.value.trim();
+      const unidades = parseInt(form.unidades.value);
+      const imagen = form.imagen.value.trim();
+
+      // nombre obligatorio, máx 100 caracteres
+      if (!nombre) { alert("El nombre es obligatorio"); return false; }
+      if (nombre.length > 100) { alert("Nombre: máximo 100 caracteres"); return false; }
+
+      // marca obligatoria
+      if (!marca) { alert("Selecciona una marca"); return false; }
+
+      // modelo obligatorio, solo letras, números, guiones, máx 25 caracteres
+      if (!modelo) { alert("El modelo es obligatorio"); return false; }
+      if (!/^[A-Za-z0-9\s-]+$/.test(modelo)) {
+        alert("Modelo solo puede contener letras, números o guiones");
+        return false;
+      }
+      if (modelo.length > 25) { alert("Modelo: máximo 25 caracteres"); return false; }
+
+      // precio obligatorio, numérico, mayor a 99.99
+      if (isNaN(precio)) { alert("Ingresa un precio válido"); return false; }
+      if (precio <= 99.99) { alert("El precio debe ser mayor a 99.99"); return false; }
+
+      // detalles opcional, máx 250 caracteres
+      if (detalles.length > 250) { alert("Detalles: máximo 250 caracteres"); return false; }
+
+      // unidades obligatorio, entero, no negativo
+      if (isNaN(unidades)) { alert("Unidades inválidas"); return false; }
+      if (unidades < 0) { alert("Las unidades no pueden ser negativas"); return false; }
+
+      // imagen opcional, si no se proporciona, usar imagen por defecto
+      if (!imagen) {
+        form.imagen.value = "images/default-product.png";
+      }
+      return true; // todo bien, se envía
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Registrar Producto</h1>
+
+  <form id="form-productos"
+        action="http://localhost/tecweb/practicas/p09/set_producto_v2.php"
+        method="post"
+        onsubmit="return validarProducto()"
+        novalidate>
+
+    <label>Nombre:
+      <input name="nombre" type="text" maxlength="100" required>
+    </label>
+
+    <label>Marca:
+      <select name="marca" required>
+        <option value="">-- Seleccione --</option>
+        <option value="Apple">Apple</option>
+        <option value="HP">HP</option>
+        <option value="Lenovo">Lenovo</option>
+        <option value="Asus">Asus</option>
+        <option value="Acer">Acer</option>
+        <option value="Dell">Dell</option>
+        <option value="MSI">MSI</option>
+        <option value="Microsoft">Microsoft</option>
+        <option value="Razer">Razer</option>
+        <option value="Toshiba">Toshiba</option>
+        <option value="Otra">Otra</option>
+      </select>
+    </label>
+
+    <label>Modelo:
+      <input name="modelo" type="text" required>
+    </label>
+
+    <label>Precio (MXN):
+      <input name="precio" type="number" step="0.01" min="0" required>
+    </label>
+
+    <label>Detalles:
+      <textarea name="detalles" rows="4" maxlength="250"></textarea>
+    </label>
+
+    <label>Unidades:
+      <input name="unidades" type="number" min="0" step="1" value="1" required>
+    </label>
+
+    <label>Imagen (ruta o URL):
+      <input name="imagen" type="text" maxlength="255" placeholder="img/producto.png">
+    </label>
+
+    <p>
+      <button type="submit">Insertar Producto</button>
+      <button type="reset">Limpiar</button>
+    </p>
+  </form>
+</body>
+</html>

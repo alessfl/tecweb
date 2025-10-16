@@ -5,17 +5,23 @@
     $data = array();
     // SE VERIFICA HABER RECIBIDO EL ID
     if( isset($_POST['id']) ) {
-        $id = $_POST['id'];
-        // SE REALIZA LA QUERY DE BÚSQUEDA Y AL MISMO TIEMPO SE VALIDA SI HUBO RESULTADOS
-        if ( $result = $conexion->query("SELECT * FROM productos WHERE id = '{$id}'") ) {
-            // SE OBTIENEN LOS RESULTADOS
-			$row = $result->fetch_array(MYSQLI_ASSOC);
+        $buscar = $_POST['id'];
+        
+        // NUEVA QUERY usando LIKE en nombre, marca o detalles
+            $sql = "SELECT * FROM productos 
+            WHERE nombre LIKE '%$buscar%' 
+               OR marca LIKE '%$buscar%' 
+               OR detalles LIKE '%$buscar%'";
 
-            if(!is_null($row)) {
-                // SE CODIFICAN A UTF-8 LOS DATOS Y SE MAPEAN AL ARREGLO DE RESPUESTA
+        // SE REALIZA LA QUERY DE BÚSQUEDA POR COINCIDENCIA PARCIAL EN NOMBRE, MARCA O DETALLES
+        if ( $result = $conexion->query($sql)) {
+            // SE OBTIENEN LOS RESULTADOS
+			while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+                $producto = array();
                 foreach($row as $key => $value) {
-                    $data[$key] = utf8_encode($value);
+                    $producto[$key] = utf8_encode($value);
                 }
+                $data[] = $producto;
             }
 			$result->free();
 		} else {

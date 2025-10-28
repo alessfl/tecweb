@@ -20,236 +20,184 @@ function init() {
     listarProductos();
 }
 
-// FUNCIÓN CALLBACK AL CARGAR LA PÁGINA O AL AGREGAR UN PRODUCTO
+var edit = false;
+var productId = null;
+
+// LISTAR PRODUCTOS
 function listarProductos() {
-    // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
-    var client = getXMLHttpRequest();
-    client.open('GET', './backend/product-list.php', true);
-    client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    client.onreadystatechange = function () {
-        // SE VERIFICA SI LA RESPUESTA ESTÁ LISTA Y FUE SATISFACTORIA
-        if (client.readyState == 4 && client.status == 200) {
-            //console.log('[CLIENTE]\n'+client.responseText);
-            
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-            let productos = JSON.parse(client.responseText);    // similar a eval('('+client.responseText+')');
-            
-            // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
-            if(Object.keys(productos).length > 0) {
-                // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
-                let template = '';
-
-                productos.forEach(producto => {
-                    // SE COMPRUEBA QUE SE OBTIENE UN OBJETO POR ITERACIÓN
-                    //console.log(producto);
-
-                    // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                    let descripcion = '';
-                    descripcion += '<li>precio: '+producto.precio+'</li>';
-                    descripcion += '<li>unidades: '+producto.unidades+'</li>';
-                    descripcion += '<li>modelo: '+producto.modelo+'</li>';
-                    descripcion += '<li>marca: '+producto.marca+'</li>';
-                    descripcion += '<li>detalles: '+producto.detalles+'</li>';
-                
-                    template += `
-                        <tr productId="${producto.id}">
-                            <td>${producto.id}</td>
-                            <td>${producto.nombre}</td>
-                            <td><ul>${descripcion}</ul></td>
-                            <td>
-                                <button class="product-delete btn btn-danger" onclick="eliminarProducto()">
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
-                document.getElementById("products").innerHTML = template;
-            }
-        }
-    };
-    client.send();
+  $.ajax({
+    url: "./backend/product-list.php",
+    type: "GET",
+    dataType: "json",
+    success: function (productos) {
+      let template = "";
+      productos.forEach((producto) => {
+        let descripcion = `
+          <li>precio: ${producto.precio}</li>
+          <li>unidades: ${producto.unidades}</li>
+          <li>modelo: ${producto.modelo}</li>
+          <li>marca: ${producto.marca}</li>
+          <li>detalles: ${producto.detalles}</li>
+        `;
+        template += `
+          <tr productId="${producto.id}">
+            <td>${producto.id}</td>
+            <td>${producto.nombre}</td>
+            <td><ul>${descripcion}</ul></td>
+            <td>
+              <button class="btn btn-warning btn-sm product-edit">Editar</button>
+              <button class="btn btn-danger btn-sm product-delete">Eliminar</button>
+            </td>
+          </tr>
+        `;
+      });
+      $("#products").html(template);
+    },
+  });
 }
 
-// FUNCIÓN CALLBACK DE BOTÓN "Buscar"
-function buscarProducto(e) {
-    /**
-     * Revisar la siguiente información para entender porqué usar event.preventDefault();
-     * http://qbit.com.mx/blog/2013/01/07/la-diferencia-entre-return-false-preventdefault-y-stoppropagation-en-jquery/#:~:text=PreventDefault()%20se%20utiliza%20para,escuche%20a%20trav%C3%A9s%20del%20DOM
-     * https://www.geeksforgeeks.org/when-to-use-preventdefault-vs-return-false-in-javascript/
-     */
+// BUSCAR PRODUCTO 
+$(document).on("keyup", "#search", function () {
+  let search = $(this).val();
+  if (search) {
+    $.ajax({
+      url: "./backend/product-search.php",
+      type: "GET",
+      data: { search: search },
+      dataType: "json",
+      success: function (productos) {
+        let template = "";
+        let template_bar = "";
+        productos.forEach((producto) => {
+          let descripcion = `
+            <li>precio: ${producto.precio}</li>
+            <li>unidades: ${producto.unidades}</li>
+            <li>modelo: ${producto.modelo}</li>
+            <li>marca: ${producto.marca}</li>
+            <li>detalles: ${producto.detalles}</li>
+          `;
+          template += `
+            <tr productId="${producto.id}">
+              <td>${producto.id}</td>
+              <td>${producto.nombre}</td>
+              <td><ul>${descripcion}</ul></td>
+              <td>
+                <button class="btn btn-warning btn-sm product-edit">Editar</button>
+                <button class="btn btn-danger btn-sm product-delete">Eliminar</button>
+              </td>
+            </tr>
+          `;
+          template_bar += `<li>${producto.nombre}</li>`;
+        });
+        $("#product-result").removeClass("d-none").addClass("d-block");
+        $("#container").html(template_bar);
+        $("#products").html(template);
+      },
+    });
+  } else {
+    listarProductos();
+  }
+});
+
+// AGREGAR PRODUCTO
+$("#product-form").submit(function (e) {
     e.preventDefault();
 
-    // SE OBTIENE EL ID A BUSCAR
-    var search = document.getElementById('search').value;
+    // Determinar si estamos editando o agregando
+    let url = edit ? "./backend/product-edit.php" : "./backend/product-add.php";
 
-    // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
-    var client = getXMLHttpRequest();
-    client.open('GET', './backend/product-search.php?search='+search, true);
-    client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    client.onreadystatechange = function () {
-        // SE VERIFICA SI LA RESPUESTA ESTÁ LISTA Y FUE SATISFACTORIA
-        if (client.readyState == 4 && client.status == 200) {
-            //console.log('[CLIENTE]\n'+client.responseText);
-            
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-            let productos = JSON.parse(client.responseText);    // similar a eval('('+client.responseText+')');
-            
-            // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
-            if(Object.keys(productos).length > 0) {
-                // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
-                let template = '';
-                let template_bar = '';
+    let finalJSON = JSON.parse($("#description").val());
+    finalJSON["nombre"] = $("#name").val();
 
-                productos.forEach(producto => {
-                    // SE COMPRUEBA QUE SE OBTIENE UN OBJETO POR ITERACIÓN
-                    //console.log(producto);
+    // Si estamos editando, agregar el ID
+    if (edit) {
+        finalJSON["id"] = productId;
+    }
 
-                    // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                    let descripcion = '';
-                    descripcion += '<li>precio: '+producto.precio+'</li>';
-                    descripcion += '<li>unidades: '+producto.unidades+'</li>';
-                    descripcion += '<li>modelo: '+producto.modelo+'</li>';
-                    descripcion += '<li>marca: '+producto.marca+'</li>';
-                    descripcion += '<li>detalles: '+producto.detalles+'</li>';
-                
-                    template += `
-                        <tr productId="${producto.id}">
-                            <td>${producto.id}</td>
-                            <td>${producto.nombre}</td>
-                            <td><ul>${descripcion}</ul></td>
-                            <td>
-                                <button class="product-delete btn btn-danger" onclick="eliminarProducto()">
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(finalJSON),
+        contentType: "application/json; charset=UTF-8",
+        success: function (response) {
+            let res = JSON.parse(response);
+            let template_bar = `
+                <li style="list-style:none;">status: ${res.status}</li>
+                <li style="list-style:none;">message: ${res.message}</li>
+            `;
+            $("#product-result").removeClass("d-none").addClass("d-block");
+            $("#container").html(template_bar);
 
-                    template_bar += `
-                        <li>${producto.nombre}</il>
-                    `;
-                });
-                // SE HACE VISIBLE LA BARRA DE ESTADO
-                document.getElementById("product-result").className = "card my-4 d-block";
-                // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                document.getElementById("container").innerHTML = template_bar;  
-                // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
-                document.getElementById("products").innerHTML = template;
-            }
-        }
-    };
-    client.send();
-}
-
-// FUNCIÓN CALLBACK DE BOTÓN "Agregar Producto"
-function agregarProducto(e) {
-    e.preventDefault();
-
-    // SE OBTIENE DESDE EL FORMULARIO EL JSON A ENVIAR
-    var productoJsonString = document.getElementById('description').value;
-    // SE CONVIERTE EL JSON DE STRING A OBJETO
-    var finalJSON = JSON.parse(productoJsonString);
-    // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
-    finalJSON['nombre'] = document.getElementById('name').value;
-    // SE OBTIENE EL STRING DEL JSON FINAL
-    productoJsonString = JSON.stringify(finalJSON,null,2);
-
-/**
- * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
- * ...
- * 
- * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
- */
-
-    // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
-    var client = getXMLHttpRequest();
-    client.open('POST', './backend/product-add.php', true);
-    client.setRequestHeader('Content-Type', "application/json;charset=UTF-8");
-    client.onreadystatechange = function () {
-        // SE VERIFICA SI LA RESPUESTA ESTÁ LISTA Y FUE SATISFACTORIA
-        if (client.readyState == 4 && client.status == 200) {
-            console.log(client.responseText);
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-            let respuesta = JSON.parse(client.responseText);
-            // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-            let template_bar = '';
-            template_bar += `
-                        <li style="list-style: none;">status: ${respuesta.status}</li>
-                        <li style="list-style: none;">message: ${respuesta.message}</li>
-                    `;
-
-            // SE HACE VISIBLE LA BARRA DE ESTADO
-            document.getElementById("product-result").className = "card my-4 d-block";
-            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-            document.getElementById("container").innerHTML = template_bar;
-
-            // SE LISTAN TODOS LOS PRODUCTOS
             listarProductos();
+
+            $("#product-form").trigger("reset");
+            $("#description").val(JSON.stringify(baseJSON, null, 2));
+
+            // Reset variables
+            edit = false;
+            productId = null;
+            $("#product-form").find("button[type=submit]").text("Agregar Producto");
         }
-    };
-    client.send(productoJsonString);
-}
+    });
+});
 
-// FUNCIÓN CALLBACK DE BOTÓN "Eliminar"
-function eliminarProducto() {
-    if( confirm("De verdad deseas eliinar el Producto") ) {
-        var id = event.target.parentElement.parentElement.getAttribute("productId");
-        //NOTA: OTRA FORMA PODRÍA SER USANDO EL NOMBRE DE LA CLASE, COMO EN LA PRÁCTICA 7
+// ELIMINAR PRODUCTO
+$(document).on("click", ".product-delete", function () {
+  if (confirm("¿Deseas eliminar el producto?")) {
+    let element = $(this)[0].parentElement.parentElement;
+    let id = $(element).attr("productId");
+    $.ajax({
+      url: "./backend/product-delete.php",
+      type: "GET",
+      data: { id: id },
+      success: function (response) {
+        let res = JSON.parse(response);
+        let template_bar = `
+          <li style="list-style:none;">status: ${res.status}</li>
+          <li style="list-style:none;">message: ${res.message}</li>
+        `;
+        $("#product-result").removeClass("d-none").addClass("d-block");
+        $("#container").html(template_bar);
+        listarProductos();
+      },
+    });
+  }
+});
 
-        // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
-        var client = getXMLHttpRequest();
-        client.open('GET', './backend/product-delete.php?id='+id, true);
-        client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        client.onreadystatechange = function () {
-            // SE VERIFICA SI LA RESPUESTA ESTÁ LISTA Y FUE SATISFACTORIA
-            if (client.readyState == 4 && client.status == 200) {
-                console.log(client.responseText);
-                // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                let respuesta = JSON.parse(client.responseText);
-                // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-                let template_bar = '';
-                template_bar += `
-                            <li style="list-style: none;">status: ${respuesta.status}</li>
-                            <li style="list-style: none;">message: ${respuesta.message}</li>
-                        `;
+// EDITAR PRODUCTO
+$(document).on("click", ".product-edit", function () {
+    let element = $(this)[0].parentElement.parentElement;
+    let id = $(element).attr("productId");
 
-                // SE HACE VISIBLE LA BARRA DE ESTADO
-                document.getElementById("product-result").className = "card my-4 d-block";
-                // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                document.getElementById("container").innerHTML = template_bar;
+    edit = true; // Activar modo edición
+    productId = id;
 
-                // SE LISTAN TODOS LOS PRODUCTOS
-                listarProductos();
-            }
-        };
-        client.send();
-    }
-}
+    // Obtener datos del producto para llenar el formulario
+    $.ajax({
+        url: "./backend/product-search.php",
+        type: "GET",
+        data: { search: id },
+        dataType: "json",
+        success: function (producto) {
+            producto = producto[0];
+            $("#name").val(producto.nombre);
 
-// SE CREA EL OBJETO DE CONEXIÓN COMPATIBLE CON EL NAVEGADOR
-function getXMLHttpRequest() {
-    var objetoAjax;
+            // Formatear los datos del producto para el textarea JSON
+            let productoFormateado = {
+                precio: parseFloat(producto.precio),
+                unidades: parseInt(producto.unidades, 10),
+                modelo: producto.modelo,
+                marca: producto.marca,
+                detalles: producto.detalles,
+                imagen: producto.imagen
+            };
 
-    try{
-        objetoAjax = new XMLHttpRequest();
-    }catch(err1){
-        /**
-         * NOTA: Las siguientes formas de crear el objeto ya son obsoletas
-         *       pero se comparten por motivos historico-académicos.
-         */
-        try{
-            // IE7 y IE8
-            objetoAjax = new ActiveXObject("Msxml2.XMLHTTP");
-        }catch(err2){
-            try{
-                // IE5 y IE6
-                objetoAjax = new ActiveXObject("Microsoft.XMLHTTP");
-            }catch(err3){
-                objetoAjax = false;
-            }
-        }
-    }
-    return objetoAjax;
-}
+            // Llenar el textarea con el JSON formateado
+            $("#description").val(JSON.stringify(productoFormateado, null, 2));
+            $("#productId").val(producto.id);
+
+            // Cambiar el texto del botón a "Actualizar Producto"
+            $("#product-form").find("button[type=submit]").text("Actualizar Producto");
+        },
+    });
+});

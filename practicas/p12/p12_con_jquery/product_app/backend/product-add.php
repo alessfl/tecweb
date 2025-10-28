@@ -1,5 +1,6 @@
 <?php
     include_once __DIR__.'/database.php';
+    include_once __DIR__.'/product-validation.php'; // Incluimos la función de validación
 
     // SE OBTIENE LA INFORMACIÓN DEL PRODUCTO ENVIADA POR EL CLIENTE
     $producto = file_get_contents('php://input');
@@ -8,8 +9,26 @@
         'message' => 'Ya existe un producto con ese nombre'
     );
     if(!empty($producto)) {
-        // SE TRANSFORMA EL STRING DEL JASON A OBJETO
+        // SE TRANSFORMA EL STRING DEL JSON A ARREGLO ASOCIATIVO para la validación (se agrega 'true')
+        $jsonARR = json_decode($producto, true);
+        
+        $errors = validateProductData($jsonARR);
+
+        // Si hay errores de validación, devolver la respuesta con los detalles y salir
+        if (!empty($errors)) {
+            $data = [
+                "status" => "validation_error",
+                "message" => "Errores de validación encontrados.",
+                "details" => $errors
+            ];
+            // Se devuelve la respuesta de error de validación y se salta el resto del script
+            echo json_encode($data, JSON_PRETTY_PRINT);
+            exit; 
+        }
+
+        // Si no hay errores, se transforma de nuevo a objeto (o se usa el arreglo, pero mantendré tu estructura)
         $jsonOBJ = json_decode($producto);
+        
         // SE ASUME QUE LOS DATOS YA FUERON VALIDADOS ANTES DE ENVIARSE
         $sql = "SELECT * FROM productos WHERE nombre = '{$jsonOBJ->nombre}' AND eliminado = 0";
 	    $result = $conexion->query($sql);
@@ -31,5 +50,6 @@
     }
 
     // SE HACE LA CONVERSIÓN DE ARRAY A JSON
+    header('Content-Type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 ?>

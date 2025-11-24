@@ -1,8 +1,10 @@
 <?php
-    use TECWEB\MYAPI\Products;
-    require_once __DIR__.'/myapi/Products.php';
+    require_once __DIR__ . '/vendor/autoload.php';
 
-    $productos = new Products('marketzone');
-    $productos->search( $_GET['search'] );
-    echo $productos->getData();
+    use TECWEB\MYAPI\Products;
+
+    $search = $_GET['search'] ?? '';
+    $response = Products::search($search);
+
+    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ?>

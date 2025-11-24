@@ -1,8 +1,10 @@
 <?php
-    use TECWEB\MYAPI\Products;
-    require_once __DIR__.'/myapi/Products.php';
+    require_once __DIR__ . '/vendor/autoload.php';
 
-    $productos = new Products('marketzone');
-    $productos->add( json_decode( json_encode($_POST) ) );
-    echo $productos->getData();
+    use TECWEB\MYAPI\Products;
+
+    $data = json_decode(json_encode($_POST));
+    $response = Products::add($data);
+
+    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ?>
